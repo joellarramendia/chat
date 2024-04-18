@@ -1,6 +1,11 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
+
 import authRoutes from './routes/auth.route.js';
+import messageRoutes from './routes/message.route.js';
+import userRoutes from './routes/user.route.js';
+
 import connectToMongoDB from './config/connectToMongoDB.js';
 
 const app = express();
@@ -9,10 +14,12 @@ const PORT = process.env.PORT || 5000;
 dotenv.config();
 
 app.use(express.json()); // Middleware para parsear el body de las peticiones
+app.use(cookieParser());
 
 
-// Montar las rutas de autenticación
 app.use('/api/auth', authRoutes);
+app.use('/api/messages', messageRoutes);
+app.use('/api/users', userRoutes);
 
 /*app.get('/', (req, res) => {
     res.send('Hello World');
