@@ -53,7 +53,7 @@ const Login = () => {
           <div>
             <button className='btn btn-block btn-sm mt-2  border border-slate-700'
             disabled={loading}
-            >{loading ? <span className='loading loading-spinner'></span> : 'Login'}</button>
+            >{loading ? <span className='loading loading-spinner'></span> : 'Iniciar Sesión'}</button>
           </div>
         </form>
       </div>
