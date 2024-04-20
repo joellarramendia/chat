@@ -6,12 +6,12 @@ export const signupUser = async (req, res) => {
     try{
         const {fullName, username, password, confirmPassword, gender} = req.body;
         if(password !== confirmPassword) {
-            return res.status(400).json({message: 'Passwords do not match'});
+            return res.status(400).json({message: 'Las contraseñas no coinciden'});
         }
 
         const user = await User.findOne({username});
         if(user){
-            return res.status(400).json({message: 'User already exists'});
+            return res.status(400).json({message: 'El usuario ya existe'});
         }
 
         //HASH PASSWORD
@@ -35,7 +35,7 @@ export const signupUser = async (req, res) => {
             await newUser.save();
 
             res.status(201).json({
-                message: 'User created successfully',
+                message: 'Usuario creado con éxito',
                 user: {
                     _id: newUser._id,
                     fullName: newUser.fullName,
@@ -44,12 +44,12 @@ export const signupUser = async (req, res) => {
                 }
             });
         }else {
-            res.status(400).json({message: 'Invalid user data'});
+            res.status(400).json({message: 'Datos de usuario no válidos'});
         }
 
     }catch(error){
-        console.log('Error signing up user', error.message);
-        res.status(500).json({error: "Internal server error"});
+        console.log('Error al registrar usuario', error.message);
+        res.status(500).json({error: "Error Interno del Servidor"});
     }
   };
   
@@ -60,7 +60,7 @@ export const signupUser = async (req, res) => {
         const isPasswordCorrect = await bycrypt.compare(password, user?.password || '');
 
         if(!user || !isPasswordCorrect){
-            return res.status(400).json({message: 'Invalid credentials'});
+            return res.status(400).json({message: 'Credenciales no válidas'});
         }
 
         generateTokenAndSetCookie(user._id, res);
@@ -73,8 +73,8 @@ export const signupUser = async (req, res) => {
         });
         
     } catch (error) {
-        console.log('Error Login user', error.message);
-        res.status(500).json({error: "Internal server error"});
+        console.log('Error al iniciar sesión', error.message);
+        res.status(500).json({error: "Error Interno del Servidor"});
     }
 
   };
@@ -82,11 +82,11 @@ export const signupUser = async (req, res) => {
   export const logoutUser = (req, res) => {
     try {
         res.cookie('jwt', '', {maxAge:0})
-        res.status(200).json({message: 'User logged out successfully'});
+        res.status(200).json({message: 'El usuario cerró sesión exitosamente'});
 
     } catch (error) {
-        console.log('Error logout user', error.message);
-        res.status(500).json({error: "Internal server error"});
+        console.log('Error al cerrar sesión de usuario', error.message);
+        res.status(500).json({error: "Error Interno del Servidor"});
     }
   };
   
